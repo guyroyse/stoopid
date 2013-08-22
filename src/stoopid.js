@@ -16,3 +16,11 @@ Object.prototype.every = function(callback) {
   });
   return response;
 };
+
+Object.prototype.some = function(callback) {
+  var response = false;
+  this.forEach(function(key, value, object) {
+    if (!response) response = callback(key, value, object);
+  });
+  return response;
+};

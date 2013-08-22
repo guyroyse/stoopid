@@ -60,9 +60,6 @@ describe('Object', function() {
 
   describe('every', function() {
 
-    // TODO
-    // empty hash???
-
     it('passes the keys to the callback function', function() {
       var keys = [];
       subject.every(function(key) {
@@ -141,6 +138,82 @@ describe('Object', function() {
   });
 
   describe('some', function() {
+
+    it('passes the keys to the callback function', function() {
+      var keys = [];
+      subject.some(function(key) {
+        keys.push(key);
+        return false;
+      });
+      expect(keys).toEqual(['bar', 'baz', 'qux']);
+    });
+
+    it('passes the values to the callback function', function() {
+      var values = [];
+      subject.some(function(key, value) {
+        values.push(value);
+        return false;
+      });
+      expect(values).toEqual([42, true, {}]);
+    });
+
+    it('passes the object to the callback function', function() {
+      var callbackObject = {};
+      subject.every(function(key, value, object) {
+        callbackObject = object;
+      });
+      expect(callbackObject).toBe(subject);
+    });
+
+    describe('when callback returns false', function() {
+
+      it('returns false', function() {
+        var response = subject.some(function() {
+          return false;
+        });
+        expect(response).toBe(false);
+      });
+
+      it('calls the callback function for each item in the object', function() {
+        var count = 0;
+        subject.some(function() {
+          count++;
+          return false;
+        });
+        expect(count).toBe(3);
+      });
+
+    });
+
+    describe('when callback returns true', function() {
+
+      it('returns true', function() {
+        var response = subject.some(function() {
+          return true;
+        });
+        expect(response).toBe(true);
+      });
+
+      it('only calls the callback until true is returned', function() {
+        var count = 0;
+        subject.some(function() {
+          count++;
+          return count > 1;
+        });
+        expect(count).toBe(2);
+      });
+
+    });
+
+    describe('when empty', function() {
+
+      it('returns false', function() {
+        var response = {}.some(function() {});
+        expect(response).toBe(false);
+      });
+
+    });
+
   });
 
   describe('filter', function() {
