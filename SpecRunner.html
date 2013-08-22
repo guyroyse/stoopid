@@ -20,6 +20,12 @@
 <script type="text/javascript" src="spec/stoopid_spec.js"></script>
 
 <script type="text/javascript">
+
+  (function() {
+    window.setTimeout(function() { location.reload(true); }, 1000);
+  })();
+
+
   (function() {
     var jasmineEnv = jasmine.getEnv();
     jasmineEnv.updateInterval = 1000;
@@ -46,6 +52,7 @@
     }
 
   })();
+
 </script>
 
 </head>
