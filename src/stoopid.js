@@ -24,3 +24,13 @@ Object.prototype.some = function(callback) {
   });
   return response;
 };
+
+Object.prototype.filter = function(callback) {
+  var filtered = {};
+  this.forEach(function(key, value, object) {
+    if (callback(key, value, object)) {
+      filtered[key] = value;
+    }
+  });
+  return filtered;
+};
